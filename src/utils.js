@@ -21,6 +21,47 @@ const ASSISTANT_DIRECTORIES = {
   'Google Antigravity': '.agent/workflows'
 };
 
+const CODEX_PROMPTS_DIRECTORY = '.codex/prompts';
+const CODEX_SOURCE_COMMAND_DIRECTORIES = [
+  '.claude/commands',
+  '.cursor/commands',
+  '.windsurf/workflows',
+  '.roo/commands',
+  '.kilocode/workflows',
+  '.augment/commands',
+  '.opencode/command',
+  '.github/prompts'
+];
+
+function normalizeCodexPromptPaths(commandsDir) {
+  if (!existsSync(commandsDir)) return;
+
+  const entries = readdirSync(commandsDir, { withFileTypes: true });
+  let touched = 0;
+
+  for (const entry of entries) {
+    if (!entry.isFile()) continue;
+    if (!entry.name.toLowerCase().endsWith('.md')) continue;
+
+    const filePath = join(commandsDir, entry.name);
+    const original = readFileSync(filePath, 'utf8');
+    let next = original;
+
+    for (const sourceDir of CODEX_SOURCE_COMMAND_DIRECTORIES) {
+      next = next.split(sourceDir).join(CODEX_PROMPTS_DIRECTORY);
+    }
+
+    if (next !== original) {
+      writeFileSync(filePath, next);
+      touched += 1;
+    }
+  }
+
+  if (touched > 0) {
+    console.log(chalk.gray(`  Normalized ${touched} Codex prompt file path reference(s)`));
+  }
+}
+
 /**
  * Reads APM metadata from the project directory
  * @param {string} projectPath - Path to the project directory
@@ -410,6 +451,9 @@ export function installFromTempDirectory(tempDir, assistant, projectRoot, option
     }
     mkdirSync(rootAssistantDir, { recursive: true });
     cpSync(tempCommandsDir, rootAssistantDir, { recursive: true });
+    if (assistant === 'Codex CLI') {
+      normalizeCodexPromptPaths(rootAssistantDir);
+    }
     console.log(chalk.gray(`  Installed ${assistantDir}/`));
   }
 }
@@ -442,6 +486,9 @@ export function updateFromTempDirectory(tempDir, assistant, projectRoot, options
       } else {
         copyFileSync(src, dest);
       }
+    }
+    if (assistant === 'Codex CLI') {
+      normalizeCodexPromptPaths(oldAssistantDir);
     }
     console.log(chalk.green(`  Updated ${assistantDir}`));
   }
