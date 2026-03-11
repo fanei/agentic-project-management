@@ -31,16 +31,6 @@ export const ASSET_MAP = {
   'Google Antigravity': 'apm-antigravity.zip'
 };
 
-const CODEX_FALLBACK_BUNDLES = [
-  'apm-claude.zip',
-  'apm-cursor.zip',
-  'apm-windsurf.zip',
-  'apm-roo.zip',
-  'apm-opencode.zip',
-  'apm-kilocode.zip',
-  'apm-auggie.zip'
-];
-
 /**
  * Fetches the latest release information from GitHub API
  * @param {string} [releaseTag] - Optional specific release tag
@@ -98,18 +88,6 @@ export async function fetchReleaseAssetUrl(assistant, releaseTag = null) {
     const asset = release.assets.find(a => a.name === bundleFilename);
     
     if (!asset) {
-      // Backward-compatible fallback for Codex CLI while older releases don't include apm-codex.zip yet.
-      if (assistant === 'Codex CLI') {
-        const fallbackAsset = CODEX_FALLBACK_BUNDLES
-          .map(name => release.assets.find(a => a.name === name))
-          .find(Boolean);
-
-        if (fallbackAsset) {
-          console.log(chalk.yellow(`  Codex bundle not found (${bundleFilename}). Falling back to ${fallbackAsset.name}.`));
-          return fallbackAsset.browser_download_url;
-        }
-      }
-
       throw new Error(`Bundle not found for ${assistant}. Expected file: ${bundleFilename}. This may indicate an incomplete release.`);
     }
     
