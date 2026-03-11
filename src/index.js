@@ -120,7 +120,7 @@ template version compatible with your current CLI version.
         console.log('');
       }
 
-      // Interactive prompt for AI assistant selection - all 10 assistants
+      // Interactive prompt for AI assistant selection - all supported assistants
       const assistant = await select({
         message: 'Which AI assistant are you using?',
         choices: [
@@ -153,6 +153,11 @@ template version compatible with your current CLI version.
             name: 'opencode',
             value: 'opencode',
             description: 'Optimized for opencode CLI'
+          },
+          {
+            name: 'Codex CLI',
+            value: 'Codex CLI',
+            description: 'Optimized for OpenAI Codex CLI'
           },
           {
             name: 'Windsurf',
@@ -357,6 +362,13 @@ template version compatible with your current CLI version.
       console.log(chalk.gray('2. Customize the prompts and configuration for your specific project'));
       console.log(chalk.gray('3. Start using APM with your AI assistant'));
       console.log(chalk.gray('4. Run "apm update" anytime to get the latest improvements\n'));
+
+      if (assistantsToInstall.includes('Codex CLI')) {
+        console.log(chalk.cyan('Codex CLI usage note:'));
+        console.log(chalk.gray('  - APM prompts are installed at .codex/prompts'));
+        console.log(chalk.gray('  - In Codex, use commands like: /prompts:apm-1-initiate-setup'));
+        console.log(chalk.gray('  - Ensure Codex reads this project scope, e.g. run with CODEX_HOME=.codex\n'));
+      }
 
     } catch (error) {
       console.error(chalk.red('\nInitialization failed...'));
@@ -575,6 +587,10 @@ current CLI version. To update the CLI itself, use: ${chalk.yellow('npm update -
         console.log(chalk.green(`\nAPM templates successfully updated to ${latestCompatibleTag}!`));
         console.log(chalk.gray(`CLI Version: ${CURRENT_CLI_VERSION}`));
         console.log(chalk.gray(`Template Version: ${latestCompatibleTag}`));
+        if (assistants.includes('Codex CLI')) {
+          console.log(chalk.gray('Codex CLI command format: /prompts:apm-1-initiate-setup'));
+          console.log(chalk.gray('Make sure Codex uses this project-level CODEX_HOME (.codex).'));
+        }
         // Remove unzipped backup folder, keep archive
         try {
           rmSync(backupDir, { recursive: true, force: true });

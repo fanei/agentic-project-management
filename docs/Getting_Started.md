@@ -99,7 +99,7 @@ The `init` command will:
       * `.apm/Memory/Memory_Root.md` - Root memory file with header template (to be filled by Manager Agent)
       * `.apm/Implementation_Plan.md` - Implementation plan file with header template (to be filled by Setup Agent)
       * `.apm/metadata.json` - Installation metadata
-  * **Install Commands**: Create assistant-specific slash commands in the appropriate directory (e.g., `.cursor/`, `.github/copilot/`, etc.)
+  * **Install Commands**: Create assistant-specific slash commands in the appropriate directory (e.g., `.cursor/commands`, `.github/prompts`, `.codex/prompts`, etc.)
 
 After initialization completes, you're ready to begin using APM.
 
@@ -117,10 +117,16 @@ The Setup Agent conducts comprehensive project planning and creates all necessar
 
 ### 2.2 Run Setup Agent Initialization Command
 
-To initialize the Setup Agent, simply enter the command:
+To initialize the Setup Agent, enter the command format for your assistant:
 
 ```
 /apm-1-initiate-setup
+```
+
+For Codex CLI, use:
+
+```
+/prompts:apm-1-initiate-setup
 ```
 
 <div align="center">

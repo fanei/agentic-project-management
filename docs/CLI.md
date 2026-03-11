@@ -42,17 +42,19 @@ apm init
 
 **The Initialization Process:**
 
-1.  **Assistant Selection:** The CLI scans for installed extensions and prompts you to select your primary AI assistant (e.g., Cursor, GitHub Copilot, Windsurf). If you run `init` again to add a second assistant, APM tracks both in its metadata.
+1.  **Assistant Selection:** The CLI prompts you to select your AI assistant (e.g., Cursor, GitHub Copilot, Codex CLI). If you run `init` again to add a second assistant, APM tracks both in its metadata.
 
 2.  **Compatibility Check:** It automatically fetches the latest prompt templates that are compatible with your specific CLI version.
 
 3.  **Asset Installation:**
       * **Guides:** Installs the latest workflow documentation into `.apm/guides/`.
-      * **Commands:** Installs slash commands into the assistant-specific directory (e.g., `.cursor/rules`, `.github/prompts`).
+      * **Commands:** Installs slash commands into the assistant-specific directory (e.g., `.cursor/commands`, `.github/prompts`, `.codex/prompts`).
 
 4.  **Safe Artifact Creation:**
       * Generates `.apm/Implementation_Plan.md` and `.apm/Memory/Memory_Root.md` with header templates **only if they do not exist**.
       * **Your project data is never overwritten by initialization.**
+
+> **Codex CLI note:** Codex custom prompts are invoked as `/prompts:<name>`, for example `/prompts:apm-1-initiate-setup`.
 
 #### Installing Specific Versions
 
@@ -105,7 +107,9 @@ MyProject/
 │   └── metadata.json           # APM version & assistant tracking
 ├── .cursor/                    # (Example) Assistant-specific folder
 │   └── commands/               # Installed APM prompt commands
-└── .github/                    # (Example) If Copilot is also installed
+├── .github/                    # (Example) If Copilot is also installed
+│   └── prompts/                # Installed APM prompt commands
+└── .codex/                     # (Example) If Codex CLI is also installed
     └── prompts/                # Installed APM prompt commands
 ```
 
@@ -121,7 +125,7 @@ The `.apm/metadata.json` file is the source of truth for your APM installation. 
 {
   "cliVersion": "0.5.0",
   "templateVersion": "v0.5.0+templates.12",
-  "assistants": ["Cursor", "GitHub Copilot"],
+  "assistants": ["Cursor", "GitHub Copilot", "Codex CLI"],
   "installedAt": "2025-11-20T10:00:00.000Z",
   "lastUpdated": "2025-11-25T14:30:00.000Z"
 }

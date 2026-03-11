@@ -45,6 +45,7 @@ APM supports the following AI assistants and IDEs:
 | Kilo Code           | IDE                     | Markdown | `.kilocode/workflows`  |
 | Qwen Code           | CLI                     | TOML     | `.qwen/commands`       |
 | opencode            | CLI                     | Markdown | `.opencode/command`    |
+| Codex CLI           | CLI                     | Markdown | `.codex/prompts`       |
 | Gemini CLI          | CLI                     | TOML     | `.gemini/commands`     |
 | Auggie CLI          | CLI                     | Markdown | `.augment/commands`    |
 | Google Antigravity  | IDE                     | Markdown | `.agent/workflows`     |
@@ -76,10 +77,15 @@ Follow these simple steps to start using APM in your project:
    - APM slash commands in your AI assistant's command directory
    - Necessary installation meta-data
 
-5. **Open your AI assistant chat** and enter the slash command:
-   ```
-   /apm-1-initiate-setup
-   ```
+5. **Open your AI assistant chat** and run the setup command:
+   - Most assistants:
+     ```
+     /apm-1-initiate-setup
+     ```
+   - Codex CLI:
+     ```
+     /prompts:apm-1-initiate-setup
+     ```
 
 6. **Follow the established APM workflow:** <br/>
 Setup Phase (Project Discovery & Planning) → Task Loop Phase (Plan Execution)
